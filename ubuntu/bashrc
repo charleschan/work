@@ -1,0 +1,212 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+#force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+#------------------------------------------------------------------------------
+export EDITOR=vim
+
+export LANG="zh_CN.UTF-8"
+
+#export ENV=CMCC
+#export ENV=TAG
+export ENV=CLOUD
+echo "Your version is ${ENV}"
+
+if [ ${ENV} == 'CMCC' ]; then 
+    export OB_REL=$HOME/AsiaInfo/ob_rel_cmcc
+elif [ ${ENV} == 'TAG' ]; then 
+    export OB_REL=$HOME/AsiaInfo/ob_rel_tag
+elif [ ${ENV} == 'CLOUD' ]; then 
+    export OB_REL=$HOME/AsiaInfo/ob_rel_cloud
+fi
+
+
+#   for exports
+#export OB_REL=$HOME/AsiaInfo/ob_rel
+export OB_RUN=$OB_REL
+export OB_LOCAL=$OB_RUN
+export OB_SRC=$HOME/AsiaInfo/work/openbilling60_cmcc
+#export OB_SRC=$HOME/AsiaInfo/work/openbilling60_tag
+#export OB_SRC=$HOME/AsiaInfo/work/openbilling60_dev
+#export OB_SRC=$HOME/AsiaInfo/work/openbilling60_cloud
+
+export USERNAME=chencm
+export AIERR_SERVER=10.10.12.15
+export AIERR_SERVER_PORT=4001
+export NRM_PORT=7701
+export OBSOCKET_ADDR=10.10.12.65
+export OBSOCKET_PORT=33320
+export AI_VERSION=AI_DOMESTIC_VERSION
+export RATING_VERSION=SHCMCC
+export NRM_PORT=12099
+export LOG_LEVEL=trace
+
+#set SHLIB_PATH & LIBPATH
+export PATH=.:$PATH:$OB_REL/bin
+export LIBPATH=$LIBPATH:$OB_REL/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$OB_REL/lib
+export SHLIB_PATH=$SHLIB_PATH:$OB_REL/lib
+
+#   for Oracle
+export ORACLE_BASE=$HOME/oracle/product
+export ORACLE_HOME=$ORACLE_BASE/11.2.0
+export PATH=$PATH:$ORACLE_HOME/bin
+export LIBPATH=$LIBPATH:$ORACLE_HOME/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib
+export SHLIB_PATH=$SHLIB_PATH:$ORACLE_HOME/lib
+
+#  for DUMP
+export OBB_DUMP_OPTION=ALL
+export OBB_DUMP_PATH=$OB_REL/dump
+export OBB_DUMP_SEPARATELY=1
+export OBB_DEFAULT_CODEC=JSON
+export UNITTEST_TOTAL_ON=1
+#export GCOV_PREFIX=$OB_REL/GCOV
+
+
+# for boostdb
+export BDB_NAME=boost_abm
+export BDB_HOME=$HOME/AsiaInfo/install/boostdb
+export COMM_INC_DIR=$HOME/AsiaInfo/install/boostdb/include
+
+export PATH=.:$OB_REL/bin:$ORACLE_HOME/bin:$BDB_HOME/bini:$PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$OB_REL/lib:$ORACLE_HOME/lib:$BDB_HOME/lib
+
+# for zookeeper
+export ZK_HOME=$HOME/AsiaInfo/zookeeper
+
+# for LOG PATH
+export LOGPATH=$OB_REL/log
+export BILL_LOG=$LOGPATH/billing
+
+# for Version Info
+export AI_VERSION=GXCMCC
+#export AI_VERSION=SHMCC
+
+#   for aliases
+alias py='python'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias h='history'
+alias cdsrc='cd $OB_SRC'
+alias cdrel='cd $OB_REL'
+alias cdbdb='cd $BDB_HOME'
+alias sc='source $HOME/.bashrc'
+alias ailog='ailog_translator -r -f -i:'
+alias cdsh='cd $OB_SRC/balance_domestic'
+alias cdai='cd $HOME/AsiaInfo'
+alias cdtest='cd $HOME/AsiaInfo/work/openbilling60_cmcc/balance/mdbserv/test/simulator'
+alias cdmdb='cd $HOME/AsiaInfo/ob_run/aimdb'
+alias cdsync='cd $HOME/AsiaInfo/work/openbilling60_cmcc/balance/mdbsync_bdb/'
+alias cdzk='cd $ZK_HOME'
+alias cdzk0='cd $ZK_HOME/server0/zookeeper-3.4.5'
+alias cdzk1='cd $ZK_HOME/server1/zookeeper-3.4.5'
+alias cdzk2='cd $ZK_HOME/server2/zookeeper-3.4.5'
+
+alias cdlog='cd $LOGPATH'
+#------------------------------------------------------------------------------
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+#some shell for SECONDS and YYYYMMDD24HHMISS
+alias d='date +"%F %T"'
+alias dd='date +"%F %T" -d'
+alias ds='date +%s'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+
+echo "Running .bashrc..."
+date
+
