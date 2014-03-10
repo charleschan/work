@@ -117,13 +117,13 @@ void breadthFirstSearch(Tree root)
 // test
 int main() 
 {
-    //ÉÏÍ¼ËùÊ¾µÄ¶ş²æÊ÷ÏÈĞò±éÀúĞòÁĞ,ÆäÖĞÓÃ'#'±íÊ¾½áµãÎŞ×ó×ÓÊ÷»òÎŞÓÒ×ÓÊ÷
+    //ä¸Šå›¾æ‰€ç¤ºçš„äºŒå‰æ ‘å…ˆåºéå†åºåˆ—,å…¶ä¸­ç”¨'#'è¡¨ç¤ºç»“ç‚¹æ— å·¦å­æ ‘æˆ–æ— å³å­æ ‘
     Element data[15] = {'A', 'B', 'D', '#', '#', 'E', '#', '#', 'C', 'F','#', '#', 'G', '#', '#'};
     Tree tree;
     treeNodeConstructor(tree, data, 0);
-    printf("Éî¶ÈÓÅÏÈ±éÀú¶ş²æÊ÷½á¹û: ");
+    printf("æ·±åº¦ä¼˜å…ˆéå†äºŒå‰æ ‘ç»“æœ: ");
     depthFirstSearch(tree);
-    printf("\n\n¹ã¶ÈÓÅÏÈ±éÀú¶ş²æÊ÷½á¹û: ");
+    printf("\n\nå¹¿åº¦ä¼˜å…ˆéå†äºŒå‰æ ‘ç»“æœ: ");
     breadthFirstSearch(tree);
     return 0;
 }
